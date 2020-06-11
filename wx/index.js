@@ -21,9 +21,18 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  let body = req.body
-  console.log('xml:', body.xml)
-  resp.send(body.xml)
+  let ToUserName, FromUserName, CreateTime, MsgType, Content
+  const infoModel = `
+    <xml>
+      <ToUserName>${ToUserName}</ToUserName>
+      <FromUserName>${FromUserName}</FromUserName>
+      <CreateTime>${CreateTime}</CreateTime>
+      <MsgType>${MsgType}</MsgType>
+      <Content>${Content}</Content>
+    </xml>
+  `
+  console.log(req)  
+  resp.send(infoModel)
 }
 
 module.exports = {
