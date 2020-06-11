@@ -1,18 +1,13 @@
+// 基础模块加载
+const mysql = require('./mysql/main.js')
 const express = require('express')
-const es = express()
-const fs = require('fs')
-const mysql = require('mysql')
-
-const db = mysql.createConnection({
-  host: '111.229.158.205',
-  port: '3306',
-  user: 'root',
-  password: '',
-  database: 'express'
-})
+global.forbuy = mysql.forbuy
+global.es = express()
+// 各个功能模块加载
+const fb = require('./forbuy/main.js')
 
 //设置允许跨域访问该服务.
-es.all('*', function (req, res, next) {
+global.es.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
   res.header('Access-Control-Allow-Headers', 'Content-Type')
@@ -21,30 +16,15 @@ es.all('*', function (req, res, next) {
   next()
 })
 
-es.get('/', (req, resp) => {
-  let html = ``
-  db.query('select * from user', (err, res) => {
-    for(let i of res) {      
-      html += `<h1>${i.id + '-' + i.name + i.tel + i.location}</h1>`
-    }
-    resp.send(`<div>` + html + `</div>`)
-  })
+
+
+global.es.get('/getUserInfo', (req, resp) => {
+  fb.getUserInfo(req, resp)
 })
 
-es.get('/vega', (req, resp) => {
-  db.query('select * from vega', (err, res) => {
-    if (err) {
-      resp.send('后台异常：' + err)
-    } else {
-      resp.send(res)
-    }
-  })
+global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => {
+  let obj = req.body
+  fb.insertUserInfo(req, resp, obj)
 })
 
-es.post('/vega', require('body-parser').json(), (req, res) => {
-  let body = req.body
-  db.query('insert into vega (value, area) values (' + Number(body.value) + ', ' + Number(body.area) + ')')
-  res.send()
-});
-
-es.listen(3000, () => console.log('listen 3000'))
+global.es.listen(3000, () => console.log('listen 3000'))
