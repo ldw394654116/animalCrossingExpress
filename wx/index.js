@@ -33,7 +33,7 @@ function info (req, resp) {
     MsgType: MsgType,
     Content: Content
   }
-  const infoModel = `
+  let infoModel = `
     <xml>
       <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
       <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
@@ -41,9 +41,7 @@ function info (req, resp) {
       <MsgType><![CDATA[${MsgType}]]</MsgType>
       <Content><![CDATA[${Content}]]</Content>
     </xml>
-  `  
-  resp.set('Content-Type', 'text/xml')
-  console.log(resp)
+  `
   resp.send(infoModel)
 }
 
