@@ -28,11 +28,11 @@ function info (req, resp) {
   let Content = req.body.xml.Content + '???????' || 'sb'
   const infoModel = `
     <xml>
-      <ToUserName>${ToUserName}</ToUserName>
-      <FromUserName>${FromUserName}</FromUserName>
+      <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
+      <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
       <CreateTime>${CreateTime}</CreateTime>
-      <MsgType>${MsgType}</MsgType>
-      <Content>${Content}</Content>
+      <MsgType><![CDATA[${MsgType}]]</MsgType>
+      <Content><![CDATA[${Content}]]</Content>
     </xml>
   `  
   console.log(infoModel.toString())
