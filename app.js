@@ -33,7 +33,7 @@ global.es.get('/wx', (req, resp) => {
   wx.wx(req, resp)
 })
 
-global.es.post('/wx', require('body-parser').json(), (req, resp) => {
+global.es.post('/wx', require('body-parser-xml').json(), (req, resp) => {
   let body = req.body
   console.log('接收到微信post信息！', body)
   // wx.info(req, resp)
