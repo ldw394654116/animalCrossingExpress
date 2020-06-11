@@ -1,4 +1,5 @@
 const sha1 = require('sha1')
+const o2x = require('object-to-xml')
 
 const config = {
   wechat: {
@@ -42,7 +43,8 @@ function info (req, resp) {
       <Content><![CDATA[${Content}]]</Content>
     </xml>
   `
-  resp.send(infoModel)
+  resp.set('Content-Type', 'text/xml')
+  resp.send(o2x(json))
 }
 
 module.exports = {
