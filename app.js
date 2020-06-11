@@ -33,4 +33,9 @@ global.es.get('/wx', (req, resp) => {
   wx.wx(req, resp)
 })
 
+global.es.post('/wx', (req, resp) => {
+  console.log('接收到微信post信息！', req)
+  // wx.info(req, resp)
+})
+
 global.es.listen(80, () => console.log('listen 80'))

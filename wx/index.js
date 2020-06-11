@@ -20,6 +20,11 @@ function wx (req, resp) {
   resp.send(end)
 }
 
+function info (req, resp) {
+  console.log(req)
+}
+
 module.exports = {
-  wx: wx
+  wx: wx,
+  info: info
 }
