@@ -27,4 +27,4 @@ global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => 
   fb.insertUserInfo(req, resp, obj)
 })
 
-global.es.listen(3000, () => console.log('listen 3000'))
+global.es.listen(80, () => console.log('listen 80'))
