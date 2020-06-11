@@ -29,12 +29,13 @@ global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => 
 })
 
 global.es.get('/wx', (req, resp) => {
-  console.log('接收到微信请求的接口', req)
+  console.log('接收到微信请求的接口')
   wx.wx(req, resp)
 })
 
-global.es.post('/wx', (req, resp) => {
-  console.log('接收到微信post信息！', req)
+global.es.post('/wx', require('body-parser').json(), (req, resp) => {
+  let body = req.body
+  console.log('接收到微信post信息！', body)
   // wx.info(req, resp)
 })
 
