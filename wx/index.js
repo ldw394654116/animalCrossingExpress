@@ -22,7 +22,8 @@ function wx (req, resp) {
 
 function info (req, resp) {
   let body = req.body
-  resp.send('测试 ' + body.xml.Content + '回复了？')
+  console.log('xml:', body.xml)
+  resp.send(body.xml)
 }
 
 module.exports = {
