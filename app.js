@@ -3,9 +3,21 @@ const mysql = require('./mysql/main.js')
 const express = require('express')
 global.forbuy = mysql.forbuy
 global.es = express()
+
 // 各个功能模块加载
 const fb = require('./forbuy/main.js')
 const wx = require('./wx/index.js')
+
+// 解析xml内容
+const bodyParser = require('body-parser')
+require('body-parser-xml')(bodyParser)
+global.es.use(bodyParser.xml({
+  xmlParseOptions: {
+    normalize: true,
+    normalizeTag: true,
+    explicitArray: false
+  }
+}))
 
 //设置允许跨域访问该服务.
 global.es.all('*', function (req, res, next) {
@@ -33,8 +45,7 @@ global.es.get('/wx', (req, resp) => {
   wx.wx(req, resp)
 })
 
-global.es.post('/wx', require('body-parser-xml').json(), (req, resp) => {
-  let body = req.body
+global.es.post('/wx', (req, resp, body) => {  
   console.log('接收到微信post信息！', body)
   // wx.info(req, resp)
 })
