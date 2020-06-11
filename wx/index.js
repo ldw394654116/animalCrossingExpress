@@ -43,7 +43,8 @@ function info (req, resp) {
     </xml>
   `  
   resp.set('Content-Type', 'text/xml')
-  resp.send(xml)
+  console.log(resp)
+  resp.send(infoModel)
 }
 
 module.exports = {
