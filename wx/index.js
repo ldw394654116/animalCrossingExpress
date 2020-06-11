@@ -1,5 +1,4 @@
 const sha1 = require('sha1')
-const parser = require('xml2json')
 
 const config = {
   wechat: {
@@ -27,7 +26,6 @@ function info (req, resp) {
   let CreateTime = new Date().getTime()
   let MsgType = 'text'
   let Content = req.body.xml.Content + '???????' || 'sb'
-
   let json = {
     ToUserName: ToUserName,
     FromUserName: FromUserName,
@@ -35,19 +33,16 @@ function info (req, resp) {
     MsgType: MsgType,
     Content: Content
   }
-
-  let xml = parser.toXml(json)
-
-  // const infoModel = `
-  //   <xml>
-  //     <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
-  //     <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
-  //     <CreateTime>${CreateTime}</CreateTime>
-  //     <MsgType><![CDATA[${MsgType}]]</MsgType>
-  //     <Content><![CDATA[${Content}]]</Content>
-  //   </xml>
-  // `  
-  // resp.set('Content-Type', 'text/xml')
+  const infoModel = `
+    <xml>
+      <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
+      <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
+      <CreateTime>${CreateTime}</CreateTime>
+      <MsgType><![CDATA[${MsgType}]]</MsgType>
+      <Content><![CDATA[${Content}]]</Content>
+    </xml>
+  `  
+  resp.set('Content-Type', 'text/xml')
   resp.send(xml)
 }
 
