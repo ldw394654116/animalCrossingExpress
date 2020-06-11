@@ -5,6 +5,7 @@ global.forbuy = mysql.forbuy
 global.es = express()
 // 各个功能模块加载
 const fb = require('./forbuy/main.js')
+const wx = require('./wx/index.js')
 
 //设置允许跨域访问该服务.
 global.es.all('*', function (req, res, next) {
@@ -25,6 +26,10 @@ global.es.get('/getUserInfo', (req, resp) => {
 global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => {
   let obj = req.body
   fb.insertUserInfo(req, resp, obj)
+})
+
+global.es.get('/wx', (req, resp) => {
+  wx.wx(req, resp)
 })
 
 global.es.listen(80, () => console.log('listen 80'))
