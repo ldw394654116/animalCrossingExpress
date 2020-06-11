@@ -1,4 +1,5 @@
 const sha1 = require('sha1')
+const xml = require('xml')
 
 const config = {
   wechat: {
@@ -21,8 +22,8 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  let ToUserName = req.query.openid
-  let FromUserName = '青木镜框'
+  let ToUserName = req.body.xml.ToUserName
+  let FromUserName = req.body.xml.FromUserName
   let CreateTime = new Date().getTime()
   let MsgType = 'text'
   let Content = req.body.xml.Content + '???????' || 'sb'
@@ -35,8 +36,8 @@ function info (req, resp) {
       <Content><![CDATA[${Content}]]</Content>
     </xml>
   `  
-  console.log(infoModel.toString())
-  resp.send(infoModel.toString())
+  resp.set('Content-Type', 'text/xml')
+  resp.send(xml(infoModel))
 }
 
 module.exports = {
