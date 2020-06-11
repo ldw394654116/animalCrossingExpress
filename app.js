@@ -29,6 +29,7 @@ global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => 
 })
 
 global.es.get('/wx', (req, resp) => {
+  console.log('接收到微信请求的接口', req)
   wx.wx(req, resp)
 })
 

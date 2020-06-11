@@ -16,7 +16,7 @@ function wx (req, resp) {
   const echostr = req.query.echostr
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
-  const end = sha === signature ? echostr + '' : 'failed'
+  const end = sha === signature ? echostr + '' : 'failed'  
   resp.send(end)
 }
 
