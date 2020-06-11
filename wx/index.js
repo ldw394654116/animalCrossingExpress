@@ -21,7 +21,7 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  let ToUserName, FromUserName, CreateTime, MsgType, Content
+  let ToUserName, FromUserName, CreateTime, MsgType, Content  
   const infoModel = `
     <xml>
       <ToUserName>${ToUserName}</ToUserName>
@@ -31,7 +31,11 @@ function info (req, resp) {
       <Content>${Content}</Content>
     </xml>
   `
-  console.log(req)  
+  ToUserName = req.query.openid
+  FromUserName = '青木镜框'
+  CreateTime = new Date().getTime()
+  MsgType = 'text'
+  Content = req.body.xml.Content + '???????' || 'sb'
   resp.send(infoModel)
 }
 
