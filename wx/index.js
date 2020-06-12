@@ -36,8 +36,7 @@ function info (req, resp) {
         FromUserName: FromUserName,
         CreateTime: CreateTime,
         MsgType: MsgType,
-        Content: Content,
-        MsgId: MsgId
+        Content: Content
       }
     }
     let infoModel = `
