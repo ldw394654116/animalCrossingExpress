@@ -22,11 +22,11 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  let ToUserName = req.body.xml.ToUserName || 1
-  let FromUserName = req.body.xml.FromUserName || 1
+  let ToUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
+  let FromUserName = req.body.xml.FromUserName ? req.body.xml.FromUserName : 0
   let CreateTime = new Date().getTime()
-  let MsgType = 'text' || 1
-  let Content = req.body.xml.Content + '???????' || 'sb'
+  let MsgType = 'text'
+  let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
   let json = {
     ToUserName: ToUserName,
     FromUserName: FromUserName,
@@ -43,7 +43,8 @@ function info (req, resp) {
       <Content><![CDATA[${Content}]]</Content>
     </xml>
   `
-  resp.set('Content-Type', 'text/xml')
+  resp.setHeader('Content-Type', 'text/xml')
+  // resp.set('Content-Type', 'text/xml')
   resp.send(o2x(json))
 }
 
