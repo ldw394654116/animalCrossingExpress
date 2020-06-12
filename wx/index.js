@@ -23,13 +23,13 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  if  (req.body && req.body.xml) {
+  console.log(req)
+  if (req.body && req.body.xml) {
     let ToUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
     let FromUserName = req.body.xml.FromUserName ? req.body.xml.FromUserName : 0
     let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
-    let MsgId = '77777'
     let json = {
       xml: {
         ToUserName: ToUserName,
@@ -41,6 +41,7 @@ function info (req, resp) {
       }
     }
     let infoModel = `
+    <?xml version="1.0" encoding="UTF-8"?>
       <xml>
         <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
         <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
@@ -48,10 +49,10 @@ function info (req, resp) {
         <MsgType><![CDATA[${MsgType}]]</MsgType>
         <Content><![CDATA[${Content}]]</Content>
       </xml>
+    </xml>
     `
     resp.setHeader('Content-Type', 'text/xml')
-    // resp.send(parser.toXml(json))
-    resp.send('<xml ToUserName="0" FromUserName="0" CreateTime="1591932921876" MsgType="text" Content="0"></xml>')
+    resp.send(infoModel)
   } else {
     let ToUserName = 0
     let FromUserName = 0
@@ -68,7 +69,6 @@ function info (req, resp) {
       }
     }
     resp.setHeader('Content-Type', 'text/xml')
-    // resp.send(parser.toXml(json))
     resp.send('<xml ToUserName="0" FromUserName="0" CreateTime="1591932921876" MsgType="text" Content="0"></xml>')
   }
 }
