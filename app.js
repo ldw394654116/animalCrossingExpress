@@ -40,12 +40,15 @@ global.es.post('/insertUserInfo', require('body-parser').json(), (req, resp) => 
   fb.insertUserInfo(req, resp, obj)
 })
 
-global.es.get('/wx', (req, resp) => {  
+global.es.get('/wx', (req, resp) => {
   wx.wx(req, resp)
 })
 
 global.es.post('/wx', (req, resp) => {
-  wx.info(req, resp)
+  const res = wx.wx(req, resp)
+  if (res !== 'failed') {
+    wx.info(req, resp)
+  }
 })
 
 global.es.listen(80, () => console.log('listen 80'))

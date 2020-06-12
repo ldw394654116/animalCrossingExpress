@@ -19,6 +19,7 @@ function wx (req, resp) {
   const end = sha === signature ? echostr + '' : 'failed'
   console.log('wx-end:', end)
   resp.send(end)
+  return end
 }
 
 function info (req, resp) {
