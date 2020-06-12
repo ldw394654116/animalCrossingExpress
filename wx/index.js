@@ -1,6 +1,4 @@
 const sha1 = require('sha1')
-// const o2x = require('object-to-xml')
-// const parser = require('xml2json')
 
 const config = {
   wechat: {
@@ -8,16 +6,6 @@ const config = {
     appSecret: '9568e732b929ac1b0e572ee17c1198bb',
     token: 'luodawei1993'
   }
-}
-
-function createXml(str){
-　　if(document.all){
-    　　var xmlDom=new ActiveXObject("Microsoft.XMLDOM");
-    　　xmlDom.loadXML(str);
-    　　return xmlDom;
-　　}
-　　else
-　　return new DOMParser().parseFromString(str, "text/xml");
 }
 
 function wx (req, resp) {
@@ -29,16 +17,17 @@ function wx (req, resp) {
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
   const end = sha === signature ? echostr + '' : 'failed'
-  resp.send(createXml(end))
+  resp.send(end)
 }
 
 function info (req, resp) {
   console.log(req.body, req.query, req.params)
   if (req.body && req.body.xml) {
+    console.log(req.body, req.query)
     let ToUserName = req.query.openid
-    let FromUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
-    let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
-    let CreateTime = new Date().getTime()
+    let FromUserName = req.body.xml.ToUserName
+    let Content = '1333：' + req.body.xml.Content
+    let CreateTime = req.body.CreateTime
     let MsgType = 'text'
     //
     let infoModel = '<xml><ToUserName><![CDATA['
@@ -47,6 +36,7 @@ function info (req, resp) {
     + CreateTime + '</CreateTime><MsgType><![CDATA['
     + MsgType + ']]</MsgType><Content><![CDATA['
     + Content + ']]</Content></xml>'
+    resp.writeHead(200, {'Content-Type': 'application/xml'})
     resp.send(infoModel)
   } else {
     let ToUserName = 'oK49MuMVWRb0v2Vda6_1kGuKG9xU'
@@ -61,7 +51,8 @@ function info (req, resp) {
     + CreateTime + '</CreateTime><MsgType><![CDATA['
     + MsgType + ']]</MsgType><Content><![CDATA['
     + Content + ']]</Content></xml>'
-    resp.send(createXml(infoModel))
+    resp.writeHead(200, {'Content-Type': 'application/xml'})
+    resp.render(createXml(infoModel))
   }
 }
 
