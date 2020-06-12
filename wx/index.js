@@ -8,7 +8,7 @@ const config = {
   }
 }
 
-function wx (req, resp) {
+function wx (req, resp, key = 0) {
   const signature = req.query.signature
   const token = config.wechat.token
   const nonce = req.query.nonce
@@ -16,10 +16,12 @@ function wx (req, resp) {
   const echostr = req.query.echostr
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
-  const end = !!(sha === signature)
-  console.log('wx-end:', end)
-  // resp.send(end)
-  return end
+  if (key === 0) {
+    let end = sha === signature ? echostr + '' : 'failed'
+    resp.send(end)
+  } else {
+    return !!(sha === signature)
+  }
 }
 
 function info (req, resp) {

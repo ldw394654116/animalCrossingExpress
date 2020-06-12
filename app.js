@@ -45,8 +45,8 @@ global.es.get('/wx', (req, resp) => {
 })
 
 global.es.post('/wx', (req, resp) => {
-  const res = wx.wx(req, resp)
-  if (res !== 'failed') {
+  const res = wx.wx(req, resp, 1)
+  if (res) {
     wx.info(req, resp)
   }
 })
