@@ -53,11 +53,22 @@ function info (req, resp) {
     resp.setHeader('Content-Type', 'text/xml')
     resp.send(infoModel)
   } else {
-    let ToUserName = 0
-    let FromUserName = 0
-    let Content = 0
+    let ToUserName = 'oK49MuMVWRb0v2Vda6_1kGuKG9xU'
+    let FromUserName = 'oK49MuMVWRb0v2Vda6_1kGuKG9xU'
+    let Content = '和'
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
+    let infoModel = `
+    <?xml version="1.0" encoding="UTF-8"?>
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[${MsgType}]]</MsgType>
+        <Content><![CDATA[${Content}]]</Content>
+      </xml>
+    </xml>
+    `
     let json = {
       xml: {
         ToUserName: ToUserName,
@@ -68,7 +79,7 @@ function info (req, resp) {
       }
     }
     resp.setHeader('Content-Type', 'text/xml')
-    resp.send('<xml ToUserName="0" FromUserName="0" CreateTime="1591932921876" MsgType="text" Content="0"></xml>')
+    resp.send(infoModel)
   }
 }
 
