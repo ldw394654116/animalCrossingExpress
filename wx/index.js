@@ -25,7 +25,7 @@ function wx (req, resp) {
 function info (req, resp) {
   console.log(req)
   if (req.body && req.body.xml) {
-    let ToUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
+    let ToUserName = req.query.openid
     let FromUserName = req.body.xml.FromUserName ? req.body.xml.FromUserName : 0
     let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
     let CreateTime = new Date().getTime()
