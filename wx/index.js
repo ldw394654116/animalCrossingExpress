@@ -1,5 +1,5 @@
 const sha1 = require('sha1')
-const o2x = require('object-to-xml')
+// const o2x = require('object-to-xml')
 // const parser = require('xml2json')
 
 const config = {
@@ -23,34 +23,20 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  console.log(req)
+  console.log(req.body, req.query, req.params)
   if (req.body && req.body.xml) {
     let ToUserName = req.query.openid
     let FromUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
     let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
-    let json = {
-      xml: {
-        ToUserName: ToUserName,
-        FromUserName: FromUserName,
-        CreateTime: CreateTime,
-        MsgType: MsgType,
-        Content: Content
-      }
-    }
-    let infoModel = `
-    <?xml version="1.0" encoding="UTF-8"?>
-      <xml>
-        <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
-        <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
-        <CreateTime>${CreateTime}</CreateTime>
-        <MsgType><![CDATA[${MsgType}]]</MsgType>
-        <Content><![CDATA[${Content}]]</Content>
-      </xml>
-    </xml>
-    `
-    resp.setHeader('Content-Type', 'text/xml')
+    //
+    let infoModel = '<xml><ToUserName><![CDATA['
+    + ToUserName + ']]</ToUserName><FromUserName><![CDATA['
+    + FromUserName + ']]</FromUserName><CreateTime>'
+    + CreateTime + '</CreateTime><MsgType><![CDATA['
+    + MsgType + ']]</MsgType><Content><![CDATA['
+    + Content + ']]</Content></xml>'
     resp.send(infoModel)
   } else {
     let ToUserName = 'oK49MuMVWRb0v2Vda6_1kGuKG9xU'
@@ -58,27 +44,13 @@ function info (req, resp) {
     let Content = '和'
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
-    let infoModel = `
-    <?xml version="1.0" encoding="UTF-8"?>
-      <xml>
-        <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
-        <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
-        <CreateTime>${CreateTime}</CreateTime>
-        <MsgType><![CDATA[${MsgType}]]</MsgType>
-        <Content><![CDATA[${Content}]]</Content>
-      </xml>
-    </xml>
-    `
-    let json = {
-      xml: {
-        ToUserName: ToUserName,
-        FromUserName: FromUserName,
-        CreateTime: CreateTime,
-        MsgType: MsgType,
-        Content: Content
-      }
-    }
-    resp.setHeader('Content-Type', 'text/xml')
+    //
+    let infoModel = '<xml><ToUserName><![CDATA['
+    + ToUserName + ']]</ToUserName><FromUserName><![CDATA['
+    + FromUserName + ']]</FromUserName><CreateTime>'
+    + CreateTime + '</CreateTime><MsgType><![CDATA['
+    + MsgType + ']]</MsgType><Content><![CDATA['
+    + Content + ']]</Content></xml>'
     resp.send(infoModel)
   }
 }
