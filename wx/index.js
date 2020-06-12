@@ -17,13 +17,13 @@ function wx (req, resp) {
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
   const end = sha === signature ? echostr + '' : 'failed'
+  console.log('wx-end:', end)
   resp.send(end)
 }
 
 function info (req, resp) {
-  console.log(req.body, req.query, req.params)
+  console.log('wx-info',req.body, req.query, req.params)
   if (req.body && req.body.xml) {
-    console.log(req.body, req.query)
     let ToUserName = req.query.openid
     let FromUserName = req.body.xml.ToUserName
     let Content = '1333：' + req.body.xml.Content
@@ -37,7 +37,7 @@ function info (req, resp) {
     + MsgType + ']]</MsgType><Content><![CDATA['
     + Content + ']]</Content></xml>'
     resp.writeHead(200, {'Content-Type': 'application/xml'})
-    resp.send(infoModel)
+    resp.end(infoModel)
   } else {
     let ToUserName = 'oK49MuMVWRb0v2Vda6_1kGuKG9xU'
     let FromUserName = 'gh_fc07dc4eeb0c'
@@ -52,7 +52,7 @@ function info (req, resp) {
     + MsgType + ']]</MsgType><Content><![CDATA['
     + Content + ']]</Content></xml>'
     resp.writeHead(200, {'Content-Type': 'application/xml'})
-    resp.render(createXml(infoModel))
+    resp.end(infoModel)
   }
 }
 
