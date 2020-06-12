@@ -53,11 +53,13 @@ function info (req, resp) {
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
     let json = {
-      ToUserName: ToUserName,
-      FromUserName: FromUserName,
-      CreateTime: CreateTime,
-      MsgType: MsgType,
-      Content: Content
+      xml: {
+        ToUserName: ToUserName,
+        FromUserName: FromUserName,
+        CreateTime: CreateTime,
+        MsgType: MsgType,
+        Content: Content
+      }
     }
     resp.setHeader('Content-Type', 'text/xml')
     resp.send(o2x(json))
