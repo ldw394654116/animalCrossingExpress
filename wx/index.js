@@ -22,30 +22,46 @@ function wx (req, resp) {
 }
 
 function info (req, resp) {
-  let ToUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
-  let FromUserName = req.body.xml.FromUserName ? req.body.xml.FromUserName : 0
-  let CreateTime = new Date().getTime()
-  let MsgType = 'text'
-  let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
-  let json = {
-    ToUserName: ToUserName,
-    FromUserName: FromUserName,
-    CreateTime: CreateTime,
-    MsgType: MsgType,
-    Content: Content
+  if  (req.body && req.body.xml) {
+    let ToUserName = req.body.xml.ToUserName ? req.body.xml.ToUserName : 0
+    let FromUserName = req.body.xml.FromUserName ? req.body.xml.FromUserName : 0
+    let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
+    let CreateTime = new Date().getTime()
+    let MsgType = 'text'
+    let json = {
+      ToUserName: ToUserName,
+      FromUserName: FromUserName,
+      CreateTime: CreateTime,
+      MsgType: MsgType,
+      Content: Content
+    }
+    let infoModel = `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[${MsgType}]]</MsgType>
+        <Content><![CDATA[${Content}]]</Content>
+      </xml>
+    `
+    resp.setHeader('Content-Type', 'text/xml')
+    resp.send(o2x(json))
+  } else {
+    let ToUserName = 0
+    let FromUserName = 0
+    let Content = 0
+    let CreateTime = new Date().getTime()
+    let MsgType = 'text'
+    let json = {
+      ToUserName: ToUserName,
+      FromUserName: FromUserName,
+      CreateTime: CreateTime,
+      MsgType: MsgType,
+      Content: Content
+    }
+    resp.setHeader('Content-Type', 'text/xml')
+    resp.send(o2x(json))
   }
-  let infoModel = `
-    <xml>
-      <ToUserName><![CDATA[${ToUserName}]]</ToUserName>
-      <FromUserName><![CDATA[${FromUserName}]]</FromUserName>
-      <CreateTime>${CreateTime}</CreateTime>
-      <MsgType><![CDATA[${MsgType}]]</MsgType>
-      <Content><![CDATA[${Content}]]</Content>
-    </xml>
-  `
-  resp.setHeader('Content-Type', 'text/xml')
-  // resp.set('Content-Type', 'text/xml')
-  resp.send(o2x(json))
 }
 
 module.exports = {
