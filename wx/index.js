@@ -1,5 +1,6 @@
 const sha1 = require('sha1')
 const o2x = require('object-to-xml')
+const parser = require('xml2json')
 
 const config = {
   wechat: {
@@ -28,12 +29,16 @@ function info (req, resp) {
     let Content = '接口返回：' + req.body.xml.Content ? req.body.xml.Content : 0
     let CreateTime = new Date().getTime()
     let MsgType = 'text'
+    let MsgId = '77777'
     let json = {
-      ToUserName: ToUserName,
-      FromUserName: FromUserName,
-      CreateTime: CreateTime,
-      MsgType: MsgType,
-      Content: Content
+      xml: {
+        ToUserName: ToUserName,
+        FromUserName: FromUserName,
+        CreateTime: CreateTime,
+        MsgType: MsgType,
+        Content: Content,
+        MsgId: MsgId
+      }
     }
     let infoModel = `
       <xml>
@@ -45,7 +50,7 @@ function info (req, resp) {
       </xml>
     `
     resp.setHeader('Content-Type', 'text/xml')
-    resp.send(o2x(json))
+    resp.send(parser.toXml(json))
   } else {
     let ToUserName = 0
     let FromUserName = 0
@@ -62,7 +67,7 @@ function info (req, resp) {
       }
     }
     resp.setHeader('Content-Type', 'text/xml')
-    resp.send(o2x(json))
+    resp.send(parser.toXml(json))
   }
 }
 
