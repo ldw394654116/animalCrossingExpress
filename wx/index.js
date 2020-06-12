@@ -10,6 +10,16 @@ const config = {
   }
 }
 
+function createXml(str){
+　　if(document.all){
+    　　var xmlDom=new ActiveXObject("Microsoft.XMLDOM");
+    　　xmlDom.loadXML(str);
+    　　return xmlDom;
+　　}
+　　else
+　　return new DOMParser().parseFromString(str, "text/xml");
+}
+
 function wx (req, resp) {
   const signature = req.query.signature
   const token = config.wechat.token
@@ -19,7 +29,7 @@ function wx (req, resp) {
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
   const end = sha === signature ? echostr + '' : 'failed'
-  resp.send(end)
+  resp.send(createXml(end))
 }
 
 function info (req, resp) {
@@ -51,7 +61,7 @@ function info (req, resp) {
     + CreateTime + '</CreateTime><MsgType><![CDATA['
     + MsgType + ']]</MsgType><Content><![CDATA['
     + Content + ']]</Content></xml>'
-    resp.send(infoModel)
+    resp.send(createXml(infoModel))
   }
 }
 
