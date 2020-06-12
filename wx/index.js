@@ -17,15 +17,15 @@ function wx (req, resp) {
   const echostr = req.query.echostr
   const str = [token, timestamp, nonce].sort().join('') // 排序并拼接
   const sha = sha1(str) // 加密
-  const end = sha === signature ? echostr + '' : 'failed'  
+  const end = sha === signature ? echostr + '' : 'failed'
   resp.send(end)
 }
 
 function info (req, resp) {
-  let ToUserName = req.body.xml.ToUserName
-  let FromUserName = req.body.xml.FromUserName
+  let ToUserName = req.body.xml.ToUserName || 1
+  let FromUserName = req.body.xml.FromUserName || 1
   let CreateTime = new Date().getTime()
-  let MsgType = 'text'
+  let MsgType = 'text' || 1
   let Content = req.body.xml.Content + '???????' || 'sb'
   let json = {
     ToUserName: ToUserName,
